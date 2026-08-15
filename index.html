@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAMBAM — Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #120e0d;
+      --card-bg: #1d1715;
+      --border: #352925;
+      --text: #dcd3c6;
+      --muted: #9b8f80;
+      --red: #8f1f1f;
+      --red-bright: #ff4d4d;
+      --font-h: 'Outfit', sans-serif;
+      --font-b: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .hub {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      max-width: 600px;
+      width: 100%;
+    }
+    .hub-header { text-align: center; }
+    .hub-title {
+      font-family: var(--font-h);
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0 var(--red);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .hub-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .hub-image {
+      width: 200px;
+      height: 240px;
+      object-fit: contain;
+      object-position: bottom;
+      filter: drop-shadow(0 12px 20px rgba(0,0,0,0.8));
+    }
+    .links { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+    .hub-link {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    }
+    .hub-link:hover {
+      border-color: var(--red);
+      box-shadow: 0 8px 24px rgba(143, 31, 31, 0.3);
+      transform: translateY(-3px);
+    }
+    .link-icon {
+      font-size: 2.4rem;
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(143, 31, 31, 0.15);
+      border-radius: 12px;
+      border: 1px solid rgba(143, 31, 31, 0.3);
+    }
+    .link-text h2 {
+      font-family: var(--font-h);
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .link-text p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="hub">
+    <img src="bambam.png" alt="BAMBAM" class="hub-image">
+    <div class="hub-header">
+      <h1 class="hub-title">BAMBAM</h1>
+      <p class="hub-sub">Level 3 Half-Orc Barbarian · Path of the Totem Warrior (Bear)</p>
+    </div>
+    <div class="links">
+      <a href="bambam_character_sheet.html" class="hub-link">
+        <div class="link-icon">📜</div>
+        <div class="link-text">
+          <h2>Character Sheet</h2>
+          <p>Full stats, skills, abilities, inventory, and future progression.</p>
+        </div>
+      </a>
+      <a href="bambam_combat_tree.html" class="hub-link">
+        <div class="link-icon">⚔️</div>
+        <div class="link-text">
+          <h2>Combat Decision Tree</h2>
+          <p>Step-by-step flowchart for what to do on your turn.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
