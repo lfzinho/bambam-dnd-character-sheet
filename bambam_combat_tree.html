@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The BAMBAM Combat Decision Tree</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #120e0d;
+      --card-bg: #1d1715;
+      --border: #352925;
+      --text: #dcd3c6;
+      --muted: #9b8f80;
+      --red: #8f1f1f;
+      --red-bright: #ff4d4d;
+      --green: #384c31;
+      --gold: #cfa85e;
+      --line: #4a3a34;
+      --font-h: 'Outfit', sans-serif;
+      --font-b: 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      min-height: 100vh;
+      overflow-x: auto;
+    }
+
+    .page-wrap {
+      padding: 40px 20px 60px;
+      min-width: 1000px;
+    }
+
+    .header-section {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .title {
+      font-family: var(--font-h);
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 var(--red);
+      margin-bottom: 8px;
+    }
+    .subtitle { font-size: 1.1rem; color: var(--muted); font-style: italic; }
+
+    /* ── TREE CORE ── */
+    .tree { display: flex; flex-direction: column; align-items: center; }
+
+    .level {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Vertical connector BETWEEN levels */
+    .vline {
+      width: 3px;
+      height: 36px;
+      background: var(--line);
+      flex-shrink: 0;
+    }
+    .vline-short { height: 24px; }
+
+    /* Branch container */
+    .branches {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+    }
+
+    /* Horizontal rail connecting branches */
+    .branches::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      height: 3px;
+      background: var(--line);
+      z-index: 0;
+    }
+    .branches.b2::before { left: 25%; right: 25%; }
+    .branches.b3::before { left: 16.66%; right: 16.66%; }
+
+    .branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 340px;
+    }
+
+    /* Vertical stem down from horizontal rail to branch content */
+    .branch-stem {
+      width: 3px;
+      height: 24px;
+      background: var(--line);
+    }
+
+    /* Branch label (YES / NO) */
+    .branch-tag {
+      font-family: var(--font-h);
+      font-size: 0.85rem;
+      font-weight: 900;
+      padding: 3px 14px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+    .tag-yes { background: var(--green); color: #b4dba0; border: 1px solid #4a6e3e; }
+    .tag-no  { background: var(--red); color: #ffa0a0; border: 1px solid #a03030; }
+    .tag-opt { background: #3c3c3c; color: var(--text); border: 1px solid #555; }
+    .tag-rec { background: var(--red-bright); color: #000; border: 1px solid #ff7070; }
+
+    /* ── NODE SHAPES ── */
+
+    /* Decision Diamond */
+    .diamond-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 220px;
+      height: 220px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .diamond-wrap .shape {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      transform: rotate(45deg);
+      border: 3px solid var(--gold);
+      background: rgba(207, 168, 94, 0.08);
+      border-radius: 8px;
+    }
+    .diamond-wrap .label {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #fff;
+      padding: 0 20px;
+      line-height: 1.35;
+    }
+    .diamond-wrap .label em { color: var(--gold); font-style: normal; font-weight: 900; }
+
+    .diamond-sm .shape { width: 130px; height: 130px; }
+    .diamond-sm { width: 190px; height: 190px; }
+    .diamond-sm .label { font-size: 0.85rem; padding: 0 16px; }
+
+    /* Action Rectangle */
+    .action-node {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text);
+      max-width: 280px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      line-height: 1.4;
+    }
+    .action-node strong { color: #fff; }
+    .action-node .math { display: block; font-size: 0.8rem; color: var(--muted); font-style: italic; margin-top: 6px; }
+
+    /* Highlighted action (recommended) */
+    .action-highlight {
+      border-color: var(--red-bright);
+      background: rgba(143, 31, 31, 0.15);
+      box-shadow: 0 0 20px rgba(255, 77, 77, 0.15), 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .action-highlight .callout {
+      display: block;
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(0,0,0,0.4);
+      border-left: 3px solid var(--red-bright);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.8rem;
+      text-align: left;
+      color: var(--muted);
+    }
+    .action-highlight .callout strong { color: var(--red-bright); }
+
+    /* Result / Terminal node */
+    .result-node {
+      background: rgba(56, 76, 49, 0.2);
+      border: 2px solid #4a6e3e;
+      border-radius: 24px;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #b4dba0;
+      text-align: center;
+    }
+    .result-danger {
+      background: rgba(143, 31, 31, 0.2);
+      border-color: var(--red-bright);
+      color: var(--red-bright);
+    }
+
+    /* Step Banner */
+    .step-banner {
+      font-family: var(--font-h);
+      font-size: 1.1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #fff;
+      background: var(--red);
+      padding: 10px 28px;
+      border-radius: 6px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(143, 31, 31, 0.4);
+      max-width: 420px;
+    }
+    .step-banner .step-type {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-top: 2px;
+    }
+
+    /* Convergence arrow: signals "all paths lead here" */
+    .converge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .converge-arrow {
+      width: 0; height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 12px solid var(--line);
+    }
+
+    /* Horizontal sub-branch connectors for nested decisions */
+    .sub-branches {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      gap: 0;
+    }
+    .sub-branches::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      height: 3px;
+      background: var(--line);
+      left: 25%;
+      right: 25%;
+    }
+
+    /* Print */
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { background: var(--bg) !important; }
+      .page-wrap { padding: 20px; min-width: auto; }
+      @page { margin: 0; size: landscape; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="header-section">
+    <h1 class="title">The BAMBAM Combat Decision Tree</h1>
+    <p class="subtitle">A brutal, step-by-step flowchart to maximum carnage on your turn.</p>
+  </div>
+
+  <div class="tree">
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- STEP 1: THE RAGE CHECK                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="step-banner">Step 1: The Rage Check <span class="step-type">Bonus Action</span></div>
+    <div class="vline"></div>
+
+    <div class="level">
+      <div class="diamond-wrap">
+        <div class="shape"></div>
+        <div class="label">Am I currently <em>Raging</em>?</div>
+      </div>
+      <div class="vline vline-short"></div>
+      <div class="branches b2">
+        <!-- NO Branch -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-no">NO</span>
+          <div class="vline vline-short"></div>
+          <div class="diamond-wrap diamond-sm">
+            <div class="shape"></div>
+            <div class="label">Multiple enemies, boss, or need to tank?</div>
+          </div>
+          <div class="vline vline-short"></div>
+          <div class="sub-branches b2">
+            <div class="branch">
+              <div class="branch-stem"></div>
+              <span class="branch-tag tag-yes">YES</span>
+              <div class="vline vline-short"></div>
+              <div class="action-node action-highlight">
+                <strong>Use Bonus Action: RAGE!</strong>
+                <span class="math">You take half damage from almost everything, and deal +2 damage on hits.</span>
+              </div>
+            </div>
+            <div class="branch">
+              <div class="branch-stem"></div>
+              <span class="branch-tag tag-no">NO</span>
+              <div class="vline vline-short"></div>
+              <div class="action-node">
+                <strong>Save your Rage</strong> for a tougher fight.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- YES Branch -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-yes">YES</span>
+          <div class="vline vline-short"></div>
+          <div class="result-node">Already Raging. Proceed ▼</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Converge -->
+    <div class="converge">
+      <div class="vline"></div>
+      <div class="converge-arrow"></div>
+      <div class="vline vline-short"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- STEP 2: THE GAP CLOSER                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="step-banner">Step 2: The Gap Closer <span class="step-type">Movement</span></div>
+    <div class="vline"></div>
+
+    <div class="level">
+      <div class="diamond-wrap">
+        <div class="shape"></div>
+        <div class="label">Is there an enemy within <em>30 feet</em>?</div>
+      </div>
+      <div class="vline vline-short"></div>
+      <div class="branches b2">
+        <!-- YES -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-yes">YES</span>
+          <div class="vline vline-short"></div>
+          <div class="action-node">
+            <strong>Walk directly up to the biggest enemy.</strong>
+          </div>
+        </div>
+        <!-- NO -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-no">NO</span>
+          <div class="vline vline-short"></div>
+          <div class="action-node"><strong>Move as close as possible.</strong></div>
+          <div class="vline vline-short"></div>
+          <div class="diamond-wrap diamond-sm">
+            <div class="shape"></div>
+            <div class="label">Still too far for <em>Greataxe</em>?</div>
+          </div>
+          <div class="vline vline-short"></div>
+          <div class="sub-branches b2">
+            <div class="branch">
+              <div class="branch-stem"></div>
+              <span class="branch-tag tag-yes">YES</span>
+              <div class="vline vline-short"></div>
+              <div class="action-node"><strong>Pull out a Handaxe</strong> and get ready to throw it.</div>
+            </div>
+            <div class="branch">
+              <div class="branch-stem"></div>
+              <span class="branch-tag tag-no">NO</span>
+              <div class="vline vline-short"></div>
+              <div class="result-node">You're in melee. Proceed ▼</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Converge -->
+    <div class="converge">
+      <div class="vline"></div>
+      <div class="converge-arrow"></div>
+      <div class="vline vline-short"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- STEP 3: THE LEVANTE                         -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="step-banner">Step 3: The Levante <span class="step-type">Action</span></div>
+    <div class="vline"></div>
+
+    <div class="level">
+      <div class="diamond-wrap">
+        <div class="shape"></div>
+        <div class="label">How am I <em>attacking</em>?</div>
+      </div>
+      <div class="vline vline-short"></div>
+      <div class="branches b3">
+        <!-- Option A -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-opt">Option A</span>
+          <div class="vline vline-short"></div>
+          <div class="action-node">
+            <strong>The Standard Smash</strong><br>
+            Roll <strong>1d20 + 5</strong>
+            <span class="math">Use if the enemy is almost dead and you don't want to risk getting hit back.</span>
+          </div>
+        </div>
+        <!-- Option B (Recommended) -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-rec">★ Option B ★</span>
+          <div class="vline vline-short"></div>
+          <div class="action-node action-highlight">
+            <strong>The Reckless Attack</strong><br>
+            Declare Reckless Attack.<br>
+            Roll <strong>two d20s</strong>, keep the <strong>highest</strong> (Advantage).
+            <span class="callout">
+              <strong>Why this is the BAMBAM way:</strong> Enemies get Advantage to hit you back, but because you are a Bear Totem Barbarian with a massive HP pool taking half-damage, <em>you literally do not care.</em>
+            </span>
+          </div>
+        </div>
+        <!-- Option C -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-opt">Option C</span>
+          <div class="vline vline-short"></div>
+          <div class="action-node">
+            <strong>The Ranged Toss</strong><br>
+            Throw a Handaxe.<br>
+            Roll <strong>1d20 + 5</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Converge -->
+    <div class="converge">
+      <div class="vline"></div>
+      <div class="converge-arrow"></div>
+      <div class="vline vline-short"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- STEP 4: THE DAMAGE CALCULATION              -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="step-banner">Step 4: The Damage Calculation <span class="step-type">Resolution</span></div>
+    <div class="vline"></div>
+
+    <div class="level">
+      <div class="diamond-wrap">
+        <div class="shape"></div>
+        <div class="label">Did you roll a <em>Natural 20</em>?</div>
+      </div>
+      <div class="vline vline-short"></div>
+      <div class="branches b2">
+        <!-- YES Crit -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-yes">YES — CRIT!</span>
+          <div class="vline vline-short"></div>
+          <div class="action-node action-highlight">
+            <strong>DEVASTATION</strong><br>
+            Half-Orc Savage Attacks:<br>
+            Roll <strong>3d12</strong> + 3 STR
+            <span class="math">(+2 Rage damage if raging)</span>
+          </div>
+        </div>
+        <!-- NO but hit -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-opt">NO, BUT HIT</span>
+          <div class="vline vline-short"></div>
+          <div class="action-node">
+            <strong>Standard Pain</strong><br>
+            Roll <strong>1d12 + 3</strong> STR
+            <span class="math">(+2 Rage damage if raging)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Converge -->
+    <div class="converge">
+      <div class="vline"></div>
+      <div class="converge-arrow"></div>
+      <div class="vline vline-short"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- STEP 5: THE MAINTENANCE CHECK               -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="step-banner">Step 5: The Maintenance Check <span class="step-type">End of Turn</span></div>
+    <div class="vline"></div>
+
+    <div class="level">
+      <div class="diamond-wrap">
+        <div class="shape"></div>
+        <div class="label">Am I currently <em>Raging</em>?</div>
+      </div>
+      <div class="vline vline-short"></div>
+      <div class="branches b2">
+        <!-- YES -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-yes">YES</span>
+          <div class="vline vline-short"></div>
+          <div class="diamond-wrap diamond-sm">
+            <div class="shape"></div>
+            <div class="label">Attacked or took <em>damage</em> this turn?</div>
+          </div>
+          <div class="vline vline-short"></div>
+          <div class="sub-branches b2">
+            <div class="branch">
+              <div class="branch-stem"></div>
+              <span class="branch-tag tag-yes">YES</span>
+              <div class="vline vline-short"></div>
+              <div class="result-node">✔ Rage continues.<br>You are good to go.</div>
+            </div>
+            <div class="branch">
+              <div class="branch-stem"></div>
+              <span class="branch-tag tag-no">NO</span>
+              <div class="vline vline-short"></div>
+              <div class="result-node result-danger">⚠ YOUR RAGE ENDS EARLY!<br><span style="font-weight:normal;font-size:0.8rem;">Always attack or take a hit to keep it burning.</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- NO (not raging, skip) -->
+        <div class="branch">
+          <div class="branch-stem"></div>
+          <span class="branch-tag tag-no">NO</span>
+          <div class="vline vline-short"></div>
+          <div class="result-node">Not raging. Turn is over.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vline"></div>
+    <div class="converge-arrow"></div>
+
+  </div>
+</div>
+</body>
+</html>
