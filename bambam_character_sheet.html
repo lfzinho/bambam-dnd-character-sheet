@@ -50,6 +50,7 @@
         break-inside: avoid !important; 
         margin-top: 0 !important; 
       }
+      .tracker-panel { position: static !important; }
       @page { margin: 0; size: auto; }
     }
     
@@ -78,6 +79,133 @@
       border-bottom: 1px solid #fff;
     }
 
+    /* ═══ STICKY TRACKER PANEL ═══ */
+    .tracker-panel {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(18, 14, 13, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--card-border);
+      padding: 12px 20px;
+      margin: -20px -20px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .tracker-block {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 14px;
+    }
+
+    .tracker-label {
+      font-family: var(--font-headers);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      min-width: 40px;
+    }
+
+    .tracker-value {
+      font-family: var(--font-headers);
+      font-size: 1.8rem;
+      font-weight: 900;
+      min-width: 60px;
+      text-align: center;
+      color: #fff;
+      line-height: 1;
+    }
+    .tracker-value.hp-full { color: #7cdb6a; }
+    .tracker-value.hp-mid { color: #dbb86a; }
+    .tracker-value.hp-low { color: var(--accent-red-bright); }
+    .tracker-value.hp-zero { color: #ff0040; animation: pulse-red 1s infinite; }
+    @keyframes pulse-red {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .tracker-btn {
+      font-family: var(--font-headers);
+      font-size: 1.3rem;
+      font-weight: 900;
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--card-border);
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      line-height: 1;
+    }
+    .tracker-btn:hover { background: var(--accent-red); border-color: var(--accent-red); color: #fff; }
+    .tracker-btn:active { transform: scale(0.9); }
+
+    .tracker-max {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: normal;
+    }
+
+    .rage-pips {
+      display: flex;
+      gap: 6px;
+    }
+    .rage-pip {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-red);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .rage-pip.active {
+      background: var(--accent-red-bright);
+      box-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
+    }
+
+    .rest-btn {
+      font-family: var(--font-headers);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border: 2px solid var(--card-border);
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .rest-btn:hover { border-color: var(--accent-green); color: #b4dba0; background: rgba(56, 76, 49, 0.2); }
+    .rest-btn:active { transform: scale(0.95); }
+    .rest-btn.long-rest { border-color: #4a6e3e; }
+
+    .rest-flash {
+      animation: flash-green 0.6s ease;
+    }
+    @keyframes flash-green {
+      0% { box-shadow: 0 0 0 0 rgba(124, 219, 106, 0.7); }
+      50% { box-shadow: 0 0 20px 5px rgba(124, 219, 106, 0.3); }
+      100% { box-shadow: 0 0 0 0 rgba(124, 219, 106, 0); }
+    }
+
     /* Hero Section Redesign */
     .hero {
       display: flex;
@@ -88,7 +216,7 @@
       border-radius: 12px;
       padding: 40px 20px 20px;
       margin-bottom: 50px;
-      margin-top: 80px; 
+      margin-top: 20px; 
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       position: relative;
       text-align: center;
@@ -101,7 +229,7 @@
         text-align: left;
         padding: 40px;
         padding-right: 350px;
-        margin-top: 40px;
+        margin-top: 10px;
       }
     }
 
@@ -357,6 +485,20 @@
     .weapon-type { font-size: 0.9rem; color: var(--text-muted); font-weight: normal;}
     .weapon-stat { margin-bottom: 8px; }
     .weapon-stat strong { color: #fff; }
+    .mastery-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 10px;
+      border-radius: 4px;
+      background: rgba(207, 168, 94, 0.15);
+      border: 1px solid rgba(207, 168, 94, 0.4);
+      color: #cfa85e;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
 
     /* Actions */
     .action-section { margin-bottom: 24px; }
@@ -429,7 +571,40 @@
 <body>
 
 <div class="container">
-  
+
+  <!-- ═══ STICKY TRACKER ═══ -->
+  <div class="tracker-panel" id="trackerPanel">
+    <!-- HP Tracker -->
+    <div class="tracker-block">
+      <span class="tracker-label">HP</span>
+      <button class="tracker-btn" onclick="changeHP(-1)" title="Take 1 damage">−</button>
+      <span class="tracker-value hp-full" id="hpDisplay">32 <span class="tracker-max">/ 32</span></span>
+      <button class="tracker-btn" onclick="changeHP(1)" title="Heal 1 HP">+</button>
+    </div>
+
+    <!-- Rage Counter -->
+    <div class="tracker-block">
+      <span class="tracker-label">Rages</span>
+      <div class="rage-pips" id="ragePips">
+        <div class="rage-pip active" data-index="0" onclick="toggleRage(0)"></div>
+        <div class="rage-pip active" data-index="1" onclick="toggleRage(1)"></div>
+        <div class="rage-pip active" data-index="2" onclick="toggleRage(2)"></div>
+      </div>
+    </div>
+
+    <!-- Relentless Endurance -->
+    <div class="tracker-block">
+      <span class="tracker-label">Relentless</span>
+      <div class="rage-pips" id="relentlessPip">
+        <div class="rage-pip active" data-index="0" onclick="toggleRelentless()"></div>
+      </div>
+    </div>
+
+    <!-- Rest Buttons -->
+    <button class="rest-btn" onclick="shortRest()" title="Restore some HP (roll hit dice)">☀ Short Rest</button>
+    <button class="rest-btn long-rest" onclick="longRest()" title="Full HP + all Rages restored">🌙 Long Rest</button>
+  </div>
+
   <!-- Hero Section -->
   <header class="hero">
     <div class="hero-bg-text">LEVANTE</div>
@@ -456,26 +631,26 @@
       <h2 class="card-header">Identity & Core Info</h2>
       <ul class="info-list">
         <li>
-          <span class="info-label">Race: <a href="http://dnd5e.wikidot.com/lineage:half-orc" target="_blank">Half-Orc</a></span>
+          <span class="info-label">Race: <a href="https://dnd2024.wikidot.com/species:orc" target="_blank">Half-Orc</a></span>
           <span class="helper-text source-note">Source: Gives you Darkvision, Relentless Endurance, Savage Attacks, and +2 STR, +1 CON.</span>
         </li>
         <li>
-          <span class="info-label">Class & Level: <a href="http://dnd5e.wikidot.com/barbarian" target="_blank">Barbarian 3</a></span>
-          <span class="helper-text source-note">Source: Gives you Rage, <a href="http://dnd5e.wikidot.com/barbarian#toc4" target="_blank">Unarmored Defense</a>, Reckless Attack, Danger Sense, and Primal Path.</span>
+          <span class="info-label">Class & Level: <a href="https://dnd2024.wikidot.com/barbarian" target="_blank">Barbarian 3</a></span>
+          <span class="helper-text source-note">Source: Gives you Rage, <a href="https://dnd2024.wikidot.com/barbarian" target="_blank">Unarmored Defense</a>, Reckless Attack, Danger Sense, Weapon Mastery, and Primal Path.</span>
         </li>
         <li>
-          <span class="info-label">Subclass: <a href="http://dnd5e.wikidot.com/barbarian:totem-warrior" target="_blank">Path of the Totem Warrior (Bear)</a></span>
-          <span class="helper-text source-note">Source: Gives you Spirit Seeker and Totem Spirit (Bear) at level 3.</span>
+          <span class="info-label">Subclass: <a href="https://dnd2024.wikidot.com/barbarian:wild-heart" target="_blank">Path of the Wild Heart (Bear)</a></span>
+          <span class="helper-text source-note">Source: Gives you Animal Speaker and Rage of the Wilds (Bear) at level 3.</span>
         </li>
         <li>
-          <span class="info-label">Background: <a href="http://dnd5e.wikidot.com/background:outlander" target="_blank">Outlander</a></span>
+          <span class="info-label">Background: Outlander</span>
           <span class="helper-text source-note">Source: Gives you Athletics, Survival, a musical instrument (Horn), an extra language (Giant), and the Wanderer feature.</span>
         </li>
         <li>
           <span class="info-label">Alignment: Chaotic Good</span>
         </li>
         <li>
-          <span class="info-label">Proficiency Bonus: <a href="http://dnd5e.wikidot.com/mechanics:proficiency-bonus" target="_blank">+2</a></span>
+          <span class="info-label">Proficiency Bonus: +2</span>
           <span class="helper-text math-note">Math: Every character gets a set bonus based on their total level. At levels 1 through 4, it is +2. You add this to things you are "proficient" or trained in.</span>
         </li>
       </ul>
@@ -490,7 +665,7 @@
           <div class="ability-name">Strength (STR)</div>
           <div class="ability-score">17</div>
           <div class="ability-modifier">+3</div>
-          <div class="ability-desc">Hitting things, lifting things, <a href="http://dnd5e.wikidot.com/skills#toc3" target="_blank">Athletics</a> checks.</div>
+          <div class="ability-desc">Hitting things, lifting things, Athletics checks.</div>
         </div>
         <div class="ability-box">
           <div class="ability-name">Constitution (CON)</div>
@@ -502,7 +677,7 @@
           <div class="ability-name">Dexterity (DEX)</div>
           <div class="ability-score">13</div>
           <div class="ability-modifier">+1</div>
-          <div class="ability-desc">Armor Class, <a href="http://dnd5e.wikidot.com/combat#toc7" target="_blank">Initiative</a>, Acrobatics, dodging traps.</div>
+          <div class="ability-desc">Armor Class, Initiative, Acrobatics, dodging traps.</div>
         </div>
         <div class="ability-box">
           <div class="ability-name">Wisdom (WIS)</div>
@@ -532,28 +707,28 @@
         <div class="combat-stat-row">
           <div class="combat-val-container">
             <span class="combat-val">15</span>
-            <span class="combat-label"><a href="http://dnd5e.wikidot.com/combat#toc9" target="_blank">Armor Class (AC)</a></span>
+            <span class="combat-label">Armor Class (AC)</span>
           </div>
-          <span class="helper-text math-note">Math: 14 (Base for Scale Mail) + 1 (Your DEX modifier) = 15.</span>
+          <span class="helper-text math-note">Math: 14 (Base for <a href="https://dnd2024.wikidot.com/armor" target="_blank">Scale Mail</a>) + 1 (Your DEX modifier) = 15.</span>
         </div>
         <div class="combat-stat-row">
           <div class="combat-val-container">
             <span class="combat-val">32</span>
-            <span class="combat-label"><a href="http://dnd5e.wikidot.com/combat#toc44" target="_blank">Hit Points (HP)</a></span>
+            <span class="combat-label">Hit Points (HP)</span>
           </div>
           <span class="helper-text math-note">Math: Level 1 (12 + 2 CON) + Level 2 (7 + 2 CON) + Level 3 (7 + 2 CON) = 32.</span>
         </div>
         <div class="combat-stat-row">
           <div class="combat-val-container">
             <span class="combat-val">30 ft</span>
-            <span class="combat-label"><a href="http://dnd5e.wikidot.com/combat#toc15" target="_blank">Speed</a></span>
+            <span class="combat-label">Speed</span>
           </div>
           <span class="helper-text source-note">Source: Standard base walking speed for Half-Orcs.</span>
         </div>
         <div class="combat-stat-row">
           <div class="combat-val-container">
             <span class="combat-val">+1</span>
-            <span class="combat-label"><a href="http://dnd5e.wikidot.com/combat#toc7" target="_blank">Initiative</a></span>
+            <span class="combat-label">Initiative</span>
           </div>
           <span class="helper-text math-note">Math: Your Initiative is always exactly equal to your DEX modifier. You roll a d20 + 1 to see how fast you react in combat.</span>
         </div>
@@ -565,7 +740,7 @@
       <h2 class="card-header">Weapons & Attacks</h2>
       <div class="weapon-item">
         <div class="weapon-header">
-          <h3 class="weapon-name"><a href="http://dnd5e.wikidot.com/weapons" target="_blank">Greataxe</a> <span class="weapon-type">(Melee)</span></h3>
+          <h3 class="weapon-name"><a href="https://dnd2024.wikidot.com/weapons" target="_blank">Greataxe</a> <span class="weapon-type">(Melee)</span> <span class="mastery-tag">Mastery: Cleave</span></h3>
         </div>
         <div class="weapon-stat">
           <strong>To Hit:</strong> Roll 1d20 + 5
@@ -575,10 +750,14 @@
           <strong>Damage:</strong> Roll 1d12 + 3 Slashing damage
           <span class="helper-text math-note">Math: 1d12 + 3 (STR modifier). When Raging, add +2 to the damage!</span>
         </div>
+        <div class="weapon-stat">
+          <strong><a href="https://dnd2024.wikidot.com/weapons" target="_blank">Weapon Mastery — Cleave</a>:</strong> If you hit a creature, you can make a melee attack roll with the same weapon against a second creature within 5 feet of the first that is also within your reach. On a hit, the second creature takes the weapon's damage dice only (1d12, no STR modifier added unless it's negative).
+          <span class="helper-text source-note">Source: Barbarian Weapon Mastery feature (Level 1). You can use the mastery property of two weapons you are proficient with.</span>
+        </div>
       </div>
       <div class="weapon-item">
         <div class="weapon-header">
-          <h3 class="weapon-name"><a href="http://dnd5e.wikidot.com/weapons" target="_blank">Handaxe</a> <span class="weapon-type">(Melee or Thrown)</span></h3>
+          <h3 class="weapon-name"><a href="https://dnd2024.wikidot.com/weapons" target="_blank">Handaxe</a> <span class="weapon-type">(Melee or Thrown)</span> <span class="mastery-tag">Mastery: Vex</span></h3>
         </div>
         <div class="weapon-stat">
           <strong>To Hit:</strong> Roll 1d20 + 5
@@ -589,12 +768,15 @@
         <div class="weapon-stat">
           <strong>Range:</strong> Can be thrown up to 20 feet normally, or up to 60 feet with disadvantage.
         </div>
+        <div class="weapon-stat">
+          <strong><a href="https://dnd2024.wikidot.com/weapons" target="_blank">Weapon Mastery — Vex</a>:</strong> If you hit a creature with this weapon, you have Advantage on your next attack roll against that creature before the end of your next turn.
+        </div>
       </div>
     </div>
 
     <!-- Card: The Complete Skill Master List -->
     <div class="card card-skills">
-      <h2 class="card-header"><a href="http://dnd5e.wikidot.com/skills" target="_blank">The Complete Skill Master List</a></h2>
+      <h2 class="card-header">The Complete Skill Master List</h2>
       <p class="helper-text global-helper">When the DM asks for a check, roll 1d20 and add (or subtract) the number below!</p>
       
       <div class="skills-container">
@@ -615,7 +797,7 @@
             <span class="skill-mod mod-pos">+3</span>
           </div>
           <div class="skill-row proficient-row">
-            <span class="skill-name">Animal Handling (Wisdom) <a href="http://dnd5e.wikidot.com/barbarian#toc10" target="_blank" style="font-size: 0.8rem; font-weight: normal; font-style: italic;">(Primal Knowledge)</a></span>
+            <span class="skill-name">Animal Handling (Wisdom) <a href="https://dnd2024.wikidot.com/barbarian" target="_blank" style="font-size: 0.8rem; font-weight: normal; font-style: italic;">(Primal Knowledge)</a></span>
             <span class="skill-mod mod-pos">+3</span>
           </div>
           <div class="skill-row proficient-row">
@@ -640,7 +822,7 @@
             <span class="skill-mod mod-pos">+1</span>
           </div>
           <div class="skill-note">
-            <span class="helper-text math-note">(with Disadvantage) (Because of your <a href="http://dnd5e.wikidot.com/armor" target="_blank">Scale Mail</a> armor, roll two d20s and take the lower number).</span>
+            <span class="helper-text math-note">(with Disadvantage) (Because of your <a href="https://dnd2024.wikidot.com/armor" target="_blank">Scale Mail</a> armor, roll two d20s and take the lower number).</span>
           </div>
         </div>
 
@@ -701,7 +883,7 @@
 
         <div class="skill-category">
           <h3>Constitution Skills</h3>
-          <p class="helper-text" style="border-left-color: var(--accent-green); background: rgba(56, 76, 49, 0.1); padding: 8px;">No skills—only <a href="http://dnd5e.wikidot.com/combat#toc43" target="_blank">Saving Throws!</a> (Add +4 to CON saves).</p>
+          <p class="helper-text" style="border-left-color: var(--accent-green); background: rgba(56, 76, 49, 0.1); padding: 8px;">No skills—only Saving Throws! (Add +4 to CON saves).</p>
         </div>
 
       </div>
@@ -714,8 +896,8 @@
       <div class="action-section">
         <h3>1. Actions (Choose one per turn)</h3>
         <ul class="action-list">
-          <li><strong><a href="http://dnd5e.wikidot.com/combat#toc33" target="_blank">Attack</a>:</strong> Swing your Greataxe or throw a Handaxe.</li>
-          <li><strong><a href="http://dnd5e.wikidot.com/combat" target="_blank">Dash / Disengage / Dodge / Grapple / Shove</a>:</strong> Standard combat actions anyone can do.</li>
+          <li><strong>Attack:</strong> Swing your Greataxe or throw a Handaxe.</li>
+          <li><strong>Dash / Disengage / Dodge / Grapple / Shove:</strong> Standard combat actions anyone can do.</li>
         </ul>
       </div>
 
@@ -723,7 +905,7 @@
         <h3>2. Bonus Actions (Choose one per turn, if applicable)</h3>
         <ul class="action-list">
           <li>
-            <strong><a href="http://dnd5e.wikidot.com/barbarian#toc3" target="_blank">Enter a Rage</a>:</strong> You can do this 3 times per long rest.
+            <strong><a href="https://dnd2024.wikidot.com/barbarian" target="_blank">Enter a Rage</a>:</strong> You can do this 3 times per long rest.
             <span class="helper-text source-note">Source: Barbarian feature. It lasts for 1 minute (10 rounds). It ends early if you are knocked unconscious, or if you end your turn without attacking a hostile creature or taking damage.</span>
           </li>
         </ul>
@@ -733,20 +915,21 @@
         <h3>3. Passive Abilities & Combat Mechanics</h3>
         <ul class="action-list">
           <li>
-            <strong><a href="http://dnd5e.wikidot.com/barbarian#toc5" target="_blank">Reckless Attack</a> (Barbarian Level 2):</strong> When you make your first attack on your turn, you can decide to attack recklessly. You get Advantage (roll 2d20, keep the highest) on all STR attacks this turn.
+            <strong><a href="https://dnd2024.wikidot.com/barbarian" target="_blank">Reckless Attack</a> (Barbarian Level 2):</strong> When you make your first attack on your turn, you can decide to attack recklessly. You get Advantage (roll 2d20, keep the highest) on all STR attacks this turn.
             <span class="helper-text math-note">The Catch: All enemies get Advantage on their attacks against you until your next turn.</span>
           </li>
           <li>
-            <strong><a href="http://dnd5e.wikidot.com/barbarian:totem-warrior" target="_blank">Totem Spirit: Bear</a> (Barbarian Level 3):</strong> While you are Raging, you have Resistance (take half damage) to ALL damage types except psychic damage.
+            <strong><a href="https://dnd2024.wikidot.com/barbarian:wild-heart" target="_blank">Rage of the Wilds: Bear</a> (Barbarian Level 3):</strong> While you are Raging, you have Resistance (take half damage) to ALL damage types except Force, Necrotic, Psychic, and Radiant damage.
+            <span class="helper-text source-note">Source: 2024 Path of the Wild Heart. Excludes Force, Necrotic, Psychic, and Radiant (updated from the 2014 rules which only excluded Psychic).</span>
           </li>
           <li>
-            <strong><a href="http://dnd5e.wikidot.com/barbarian#toc6" target="_blank">Danger Sense</a> (Barbarian Level 2):</strong> You have Advantage on DEX saving throws against effects that you can see, such as traps and spells.
+            <strong><a href="https://dnd2024.wikidot.com/barbarian" target="_blank">Danger Sense</a> (Barbarian Level 2):</strong> You have Advantage on DEX saving throws against effects that you can see, such as traps and spells.
           </li>
           <li>
-            <strong><a href="http://dnd5e.wikidot.com/lineage:half-orc#toc5" target="_blank">Relentless Endurance</a> (Half-Orc):</strong> When you are reduced to 0 HP but not killed outright, you can drop to 1 HP instead (once per long rest).
+            <strong><a href="https://dnd2024.wikidot.com/species:orc" target="_blank">Relentless Endurance</a> (Half-Orc):</strong> When you are reduced to 0 HP but not killed outright, you can drop to 1 HP instead (once per long rest).
           </li>
           <li>
-            <strong><a href="http://dnd5e.wikidot.com/lineage:half-orc#toc6" target="_blank">Savage Attacks</a> (Half-Orc):</strong> When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit.
+            <strong><a href="https://dnd2024.wikidot.com/species:orc" target="_blank">Savage Attacks</a> (Half-Orc):</strong> When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit.
           </li>
         </ul>
       </div>
@@ -756,7 +939,7 @@
     <div class="card card-inventory">
       <h2 class="card-header">Inventory & Equipment</h2>
       <ul class="inventory-list info-list">
-        <li><strong>Weapons & Armor:</strong> <a href="http://dnd5e.wikidot.com/weapons" target="_blank">Greataxe</a>, 2 <a href="http://dnd5e.wikidot.com/weapons" target="_blank">Handaxes</a>, <a href="http://dnd5e.wikidot.com/armor" target="_blank">Scale Mail</a>.</li>
+        <li><strong>Weapons & Armor:</strong> <a href="https://dnd2024.wikidot.com/weapons" target="_blank">Greataxe</a>, 2 <a href="https://dnd2024.wikidot.com/weapons" target="_blank">Handaxes</a>, <a href="https://dnd2024.wikidot.com/armor" target="_blank">Scale Mail</a>.</li>
         <li><strong>Adventuring Gear:</strong> Explorer's Pack (Backpack, bedroll, mess kit, tinderbox, 10 torches, 10 days of rations, waterskin, 50 feet of hempen rope).</li>
         <li><strong>Misc:</strong> A hunting trap, an animal trophy, traveler's clothes, and a horn.</li>
         <li><strong>Wealth:</strong> 10 Gold Pieces (gp).</li>
@@ -765,11 +948,11 @@
 
     <!-- Card: Spirit Seeker -->
     <div class="card card-magic">
-      <h2 class="card-header">Spirit Seeker: BAMBAM's Magic</h2>
-      <p class="helper-text global-helper">Because you chose the Totem Warrior path, you can cast these two spells as <a href="http://dnd5e.wikidot.com/spellcasting#toc12" target="_blank">Rituals</a> (meaning it takes 10 extra minutes to cast them outside of combat).</p>
+      <h2 class="card-header">Animal Speaker: BAMBAM's Magic</h2>
+      <p class="helper-text global-helper">Because you chose the Wild Heart path, you can cast these two spells as Rituals (meaning it takes 10 extra minutes to cast them outside of combat).</p>
       <ul class="action-list">
-        <li><strong><a href="http://dnd5e.wikidot.com/spell:speak-with-animals" target="_blank">Speak with Animals</a>:</strong> (Lasts for 10 minutes). You can hold a conversation with beasts.</li>
-        <li><strong><a href="http://dnd5e.wikidot.com/spell:beast-sense" target="_blank">Beast Sense</a>:</strong> (Lasts up to 1 hour). You touch a willing animal. For the duration, you can close your eyes and see through that animal's eyes, and hear what it hears. You are blind and deaf to your own body while doing this.</li>
+        <li><strong><a href="https://dnd2024.wikidot.com/spell:speak-with-animals" target="_blank">Speak with Animals</a>:</strong> (Lasts for 10 minutes). You can hold a conversation with beasts.</li>
+        <li><strong><a href="https://dnd2024.wikidot.com/spell:beast-sense" target="_blank">Beast Sense</a>:</strong> (Lasts up to 1 hour). You touch a willing animal. For the duration, you can close your eyes and see through that animal's eyes, and hear what it hears. You are blind and deaf to your own body while doing this.</li>
       </ul>
     </div>
 
@@ -805,7 +988,7 @@
             <span class="helper-text math-note">Math: Previous 32 + 7 for Level 4 + 2 CON modifier = 41.</span>
           </li>
           <li>
-            <strong>Feat Chosen - <a href="http://dnd5e.wikidot.com/feat:skill-expert" target="_blank">Skill Expert</a>:</strong>
+            <strong>Feat Chosen - <a href="https://dnd2024.wikidot.com/feat:skill-expert" target="_blank">Skill Expert</a>:</strong>
             <ul style="margin-top: 8px; padding-left: 20px; list-style-type: circle;">
               <li style="margin-bottom: 8px; position: static;">
                 <strong>Strength Boost:</strong> +1 to Strength, bringing the total score to 18. This upgrades the Strength modifier to +4.
@@ -815,7 +998,7 @@
                 <span class="helper-text math-note" style="display: inline-block; margin-left: 8px;">Math: +4 STR + 2 Prof to hit.</span>
               </li>
               <li style="margin-bottom: 8px; position: static;">
-                <strong>The "Levante" Champion (Expertise):</strong> You gain <a href="http://dnd5e.wikidot.com/skills" target="_blank">Expertise</a> in Athletics. Your proficiency bonus is doubled for this skill. Your new Athletics score is a massive +8.
+                <strong>The "Levante" Champion (Expertise):</strong> You gain Expertise in Athletics. Your proficiency bonus is doubled for this skill. Your new Athletics score is a massive +8.
                 <span class="helper-text math-note" style="display: inline-block; margin-left: 8px;">Math: +4 STR + 4 Double Prof.</span>
               </li>
               <li style="margin-bottom: 8px; position: static;">
@@ -830,8 +1013,8 @@
         <h3>Level 5: The Juggernaut (Sneak Peek)</h3>
         <p class="helper-text global-helper">A quick glance at the massive power spike coming at Level 5.</p>
         <ul class="action-list">
-          <li><strong><a href="http://dnd5e.wikidot.com/barbarian#toc8" target="_blank">Extra Attack</a>:</strong> You can attack twice per turn instead of just once.</li>
-          <li><strong><a href="http://dnd5e.wikidot.com/barbarian#toc9" target="_blank">Fast Movement</a>:</strong> Your base walking speed increases by 10 feet (Total: 40 feet), making it impossible for enemies to escape.</li>
+          <li><strong><a href="https://dnd2024.wikidot.com/barbarian" target="_blank">Extra Attack</a>:</strong> You can attack twice per turn instead of just once.</li>
+          <li><strong><a href="https://dnd2024.wikidot.com/barbarian" target="_blank">Fast Movement</a>:</strong> Your base walking speed increases by 10 feet (Total: 40 feet), making it impossible for enemies to escape.</li>
           <li><strong>Proficiency Bonus Increase:</strong> Your Proficiency Bonus jumps from +2 to +3. This automatically improves your attack rolls, saving throws, and all skills you are proficient in.</li>
         </ul>
       </div>
@@ -841,7 +1024,86 @@
 </div>
 
 <script>
-  // Simple intersection observer to animate cards fading in on scroll
+  // ═══ INTERACTIVE TRACKERS ═══
+  const MAX_HP = 32;
+  const MAX_RAGES = 3;
+  let currentHP = MAX_HP;
+  let ragesRemaining = MAX_RAGES;
+  let relentlessAvailable = true;
+
+  function updateHPDisplay() {
+    const el = document.getElementById('hpDisplay');
+    const pct = currentHP / MAX_HP;
+    el.innerHTML = `${currentHP} <span class="tracker-max">/ ${MAX_HP}</span>`;
+    el.className = 'tracker-value';
+    if (currentHP <= 0) el.classList.add('hp-zero');
+    else if (pct <= 0.25) el.classList.add('hp-low');
+    else if (pct <= 0.5) el.classList.add('hp-mid');
+    else el.classList.add('hp-full');
+  }
+
+  function changeHP(delta) {
+    currentHP = Math.max(0, Math.min(MAX_HP, currentHP + delta));
+    updateHPDisplay();
+  }
+
+  function updateRagePips() {
+    const pips = document.querySelectorAll('#ragePips .rage-pip');
+    pips.forEach((pip, i) => {
+      pip.classList.toggle('active', i < ragesRemaining);
+    });
+  }
+
+  function toggleRage(index) {
+    if (index < ragesRemaining) {
+      ragesRemaining = index;
+    } else {
+      ragesRemaining = index + 1;
+    }
+    updateRagePips();
+  }
+
+  function updateRelentlessPip() {
+    const pip = document.querySelector('#relentlessPip .rage-pip');
+    pip.classList.toggle('active', relentlessAvailable);
+  }
+
+  function toggleRelentless() {
+    relentlessAvailable = !relentlessAvailable;
+    updateRelentlessPip();
+  }
+
+  function shortRest() {
+    // Short rest: prompt for hit dice roll (d12 + 2 CON)
+    const roll = Math.floor(Math.random() * 12) + 1;
+    const healed = roll + 2; // d12 + CON mod
+    currentHP = Math.min(MAX_HP, currentHP + healed);
+    updateHPDisplay();
+    const panel = document.getElementById('trackerPanel');
+    panel.classList.add('rest-flash');
+    setTimeout(() => panel.classList.remove('rest-flash'), 700);
+    alert(`☀ Short Rest!\nHit Die: rolled ${roll} on d12 + 2 (CON) = ${healed} HP healed.\nCurrent HP: ${currentHP} / ${MAX_HP}`);
+  }
+
+  function longRest() {
+    currentHP = MAX_HP;
+    ragesRemaining = MAX_RAGES;
+    relentlessAvailable = true;
+    updateHPDisplay();
+    updateRagePips();
+    updateRelentlessPip();
+    const panel = document.getElementById('trackerPanel');
+    panel.classList.add('rest-flash');
+    setTimeout(() => panel.classList.remove('rest-flash'), 700);
+    alert(`🌙 Long Rest!\nHP fully restored to ${MAX_HP}.\nAll 3 Rages restored.\nRelentless Endurance restored.`);
+  }
+
+  // Init
+  updateHPDisplay();
+  updateRagePips();
+  updateRelentlessPip();
+
+  // Scroll animation for cards
   document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll('.card');
     const observer = new IntersectionObserver(entries => {
